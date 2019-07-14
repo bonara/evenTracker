@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">evenTracker</string>
+    <string name="name_goes_here">Name goes here</string>
+    <string name="summary">summary</string>
+    <string name="dets_name">Name</string>
+    <string name="dets_summary">Summary</string>
+</resources>
