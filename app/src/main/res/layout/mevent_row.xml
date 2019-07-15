@@ -30,12 +30,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/name_goes_here"
                 android:paddingTop="8dp"
-                android:textSize="15sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/summary"
-                android:layout_width="369dp"
-                android:layout_height="149dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/name"
                 android:text="@string/summary"
                 android:textSize="14sp" />
