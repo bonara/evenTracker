@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -64,7 +65,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_user:
-                Toast.makeText(this, "msg" + "Login", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "msg" + "Login", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, UserAccount.class);
+
+                this.startActivity(intent);
                 break;
         }
         return super.onOptionsItemSelected(item);

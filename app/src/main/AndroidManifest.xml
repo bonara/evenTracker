@@ -14,13 +14,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".DetailsActivity"></activity>
+        <activity android:name=".UserAccount">
+
+            <!-- TODO Add sign-in redirect URI as intent filter -->
+
+
+            <!-- This intent filter is an example for sign-in redirect URI: demoapp://demo.cognitoauth.com/signin -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="myapp2.example.com"
+                    android:path="/signin"
+                    android:scheme="myapp2" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".DetailsActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
     </application>
 

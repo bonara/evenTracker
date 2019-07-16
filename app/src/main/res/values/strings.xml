@@ -4,4 +4,16 @@
     <string name="summary">summary</string>
     <string name="dets_name">Name</string>
     <string name="dets_summary">Summary</string>
+
+    <!-- TODO: Add your Cognito pool details here -->
+    <string name="cognito_web_domain">xxxxx.auth.us-west-2.amazoncognito.com</string>
+    <string name="cognito_client_id">xxxxx</string>
+    <string name="cognito_client_secret">xxxxx</string>
+    <string name="app_redirect">xxxxx://xxxxx.xxxxx.com/signin</string>
+    <string name="app_sign_out_redirect">xxxxx://xxxxx.xxxxx.com/signout</string>
+
+
+
+    <string name="app_access_token">access_token</string>
+    <string name="app_id_token">id_token</string>
 </resources>
