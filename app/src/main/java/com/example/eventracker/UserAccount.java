@@ -25,7 +25,8 @@ public class UserAccount extends FragmentActivity
     private static final String TAG = "CognitoAuth";
     private Auth auth;
     private AlertDialog userDialog;
-    private Uri appRedirect;
+    private Uri appRedirectSignin;
+    private Uri appRedirectSignout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +40,20 @@ public class UserAccount extends FragmentActivity
     protected void onResume() {
         super.onResume();
         Intent activityIntent = getIntent();
+        if (activityIntent.getData() != null) {
+            Log.i("asdf", activityIntent.getData().toString());
+            Log.i("asdf", activityIntent.getData().getPath());
+
+        }
         //  -- Call Auth.getTokens() to get Cognito JWT --
-        if (activityIntent.getData() != null &&
-                appRedirect.getHost().equals(activityIntent.getData().getHost())) {
-            auth.getTokens(activityIntent.getData());
+        if (activityIntent.getData() != null) {
+            if (appRedirectSignin.getHost().equals(activityIntent.getData().getHost()) && appRedirectSignin.getPath().equals(activityIntent.getData().getPath())) {
+                auth.getTokens(activityIntent.getData());
+//                auth.setUsername("test");
+            }
+//            else if (appRedirectSignout.getHost().equals(activityIntent.getData().getHost()) && appRedirectSignout.getPath().equals(activityIntent.getData().getPath())) {
+//                auth.release();
+//            }
         }
     }
 
@@ -87,6 +98,7 @@ public class UserAccount extends FragmentActivity
             this.auth.getSession();
         } else {
             this.auth.signOut();
+
         }
     }
 
@@ -106,9 +118,10 @@ public class UserAccount extends FragmentActivity
                 .setApplicationContext(getApplicationContext())
                 .setAuthHandler(new callback())
                 .setSignInRedirect(getString(R.string.app_redirect))
-                .setSignOutRedirect(getString(R.string.app_redirect));
+                .setSignOutRedirect(getString(R.string.app_sign_out_redirect)); //.setPersistenceEnabled(false);
         this.auth = builder.build();
-        appRedirect = Uri.parse(getString(R.string.app_redirect));
+        appRedirectSignin = Uri.parse(getString(R.string.app_redirect));
+        appRedirectSignout = Uri.parse(getString(R.string.app_sign_out_redirect));
     }
 
     /**
@@ -120,6 +133,11 @@ public class UserAccount extends FragmentActivity
         public void onSuccess(AuthUserSession authUserSession) {
             // Show tokens for the authenticated user
             setAuthUserFragment(authUserSession);
+            auth.setUsername(authUserSession.getUsername());
+
+            Intent intent = new Intent(UserAccount.this, MainActivity.class);
+
+            UserAccount.this.startActivity(intent);
         }
 
         @Override
