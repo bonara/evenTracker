@@ -97,23 +97,9 @@ public class MainActivity extends AppCompatActivity {
             userLong = data.getStringExtra("long");
             Log.d("lat", data.getStringExtra("lat"));
             Log.d("long", data.getStringExtra("long"));
-            myEventList = new EventData().getEvents(userLat, userLong, new EventListAsyncResponse() {
-                @Override
-                public void processFinished(ArrayList<mEvent> myEventArrayList) {
-                    Log.d("Inside", "Process finished" + myEventArrayList);
-
-
-                    recyclerView = findViewById(R.id.recyclerView);
-                    recyclerView.setHasFixedSize(true);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-
-                    //setup adapter
-                    recyclerViewAdapter = new RecyclerViewAdapter(MainActivity.this, myEventList);
-
-                    recyclerView.setAdapter(recyclerViewAdapter);
-                }
-            });
-
+            listMyEvents();
+        }else {
+            listMyEvents();
         }
 
     }
@@ -130,6 +116,24 @@ public class MainActivity extends AppCompatActivity {
         this.startActivityForResult(intent, 1);
 
 
+    }
+    private void listMyEvents() {
+        myEventList = new EventData().getEvents(userLat, userLong, new EventListAsyncResponse() {
+            @Override
+            public void processFinished(ArrayList<mEvent> myEventArrayList) {
+                Log.d("Inside", "Process finished" + myEventArrayList);
+
+
+                recyclerView = findViewById(R.id.recyclerView);
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
+                //setup adapter
+                recyclerViewAdapter = new RecyclerViewAdapter(MainActivity.this, myEventList);
+
+                recyclerView.setAdapter(recyclerViewAdapter);
+            }
+        });
     }
 
 }

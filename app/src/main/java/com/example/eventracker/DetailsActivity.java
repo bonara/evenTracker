@@ -2,7 +2,10 @@ package com.example.eventracker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.eventracker.model.mEvent;
@@ -22,13 +25,24 @@ public class DetailsActivity extends AppCompatActivity {
         detsRSVP = findViewById(R.id.dets_rsvp);
 
 
-        mEvent myEvent = getIntent().getExtras().getParcelable("myEvent");
+        final mEvent myEvent = getIntent().getExtras().getParcelable("myEvent");
 
         if (myEvent != null) {
             detsName.setText(myEvent.getName());
             detsDescription.setText(myEvent.getDescription());
             detsStart.setText(myEvent.getStart());
             detsEnd.setText(myEvent.getEnd());
+
+            detsRSVP.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_VIEW);
+                    intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                    intent.setData(Uri.parse(myEvent.getEventUrl()));
+                    startActivity(intent);
+                }
+            });
         }
 
 

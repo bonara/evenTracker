@@ -21,9 +21,18 @@
             android:background="@color/colorPrimary"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:text="Update Current Location"
+            android:text="Set Location"
             android:textAllCaps="false"
             android:textColor="#ffffff" />
+
+        <TextView
+            android:id="@+id/location_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Your location coordinates:"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:textColor="#000" />
 
         <TextView
             android:id="@+id/txtLocation"
@@ -32,14 +41,6 @@
             android:layout_margin="8dp"
             android:gravity="center"
             android:textColor="#000" />
-
-        <Button
-            android:id="@+id/back_button"
-            android:layout_width="371dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Go back" />
 
     </LinearLayout>
 
