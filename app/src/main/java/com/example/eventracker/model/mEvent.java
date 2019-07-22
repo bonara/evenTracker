@@ -51,7 +51,7 @@ public class mEvent implements Parcelable {
         this.end = in.readString();
         this.timezone = in.readString();
         this.organizer_id = in.readString();
-        this.isFree = in.readBoolean();
+//        this.isFree = in.readBoolean();
         this.summary = in.readString();
         this.imageUrl = in.readString();
         this.venueId = in.readString();
@@ -72,7 +72,7 @@ public class mEvent implements Parcelable {
         dest.writeString(end);
         dest.writeString(timezone);
         dest.writeString(organizer_id);
-        dest.writeBoolean(isFree);
+//        dest.writeBoolean(isFree);
         dest.writeString(summary);
         dest.writeString(imageUrl);
         dest.writeString(venueId);

@@ -16,6 +16,7 @@ import com.example.eventracker.R;
 import com.amazonaws.mobileconnectors.cognitoauth.util.JWTParser;
 
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Iterator;
@@ -37,6 +38,7 @@ public class AuthUserFragment extends Fragment {
     private Button userButton;
     private CardView accessTokenCard;
     private CardView idTokenCard;
+    private TextView userEmail;
 
     private OnFragmentInteractionListener mListener;
 
@@ -134,6 +136,7 @@ public class AuthUserFragment extends Fragment {
         idTokenCard = (CardView) view.findViewById(R.id.card_view_id);
         TextView idTokenCardText = (TextView) view.findViewById(R.id.info_text_id_tok);
 
+        userEmail = view.findViewById(R.id.user_email);
         if (accessToken != null && !accessToken.isEmpty()) {
             accessTokenCard.setVisibility(View.VISIBLE);
             accessTokenCard.setOnClickListener(new View.OnClickListener() {
@@ -146,6 +149,20 @@ public class AuthUserFragment extends Fragment {
         } else {
             accessTokenCard.setVisibility(View.INVISIBLE);
         }
+
+        if (idToken != null && !idToken.isEmpty()) {
+            JSONObject payload = JWTParser.getPayload(idToken);
+            try {
+                userEmail.setText(payload.getString("email"));
+                Log.i("email", payload.getString("email"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        String prettyidToken = prettyPrintJWT(JWTParser.getPayload(idToken),TAB);
+        Log.d("idToken",idToken);
+        Log.d("idToken", prettyPrintJWT(JWTParser.getPayload(accessToken),TAB));
 
         if (idToken != null && !idToken.isEmpty()) {
             idTokenCard.setVisibility(View.VISIBLE);

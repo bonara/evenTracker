@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,8 +20,11 @@ import com.example.eventracker.MainActivity;
 import com.example.eventracker.R;
 import com.example.eventracker.data.VenueData;
 import com.example.eventracker.data.EventListAsyncResponse;
+import com.example.eventracker.data.VenueListAsyncResponse;
+import com.example.eventracker.model.Venue;
 import com.example.eventracker.model.mEvent;
-
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +35,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private List<mEvent> myEventList;
 
     private RequestQueue requestQueue;
-    private List<mEvent> myVenue;
+    private List<Venue> myVenue;
 
     public RecyclerViewAdapter(Context context, List<mEvent> myEventList) {
         this.context = context;
@@ -52,7 +56,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         viewHolder.name.setText(myEvent.getName());
         viewHolder.summary.setText(myEvent.getSummary());
 
+        Picasso.get().load(myEvent.getImageUrl())
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.error)
+                .into(viewHolder.image);
     }
+
+
 
 
     @Override
@@ -65,6 +75,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         public TextView name;
         public TextView summary;
+        public ImageView image;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -72,7 +83,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             itemView.setOnClickListener(this);
             name = itemView.findViewById(R.id.name);
             summary = itemView.findViewById(R.id.summary);
-
+            image = itemView.findViewById(R.id.image);
 
         }
 
@@ -89,18 +100,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 //            Log.d("Clicked", "OnClick "+ view.getId());
 
 //            Log.d("Clicked", "OnClick "+ myEvent.getVenueId());
-            myVenue = new VenueData().getVenue(myEvent.getVenueId(), new EventListAsyncResponse() {
+            myVenue = new VenueData().getVenue(myEvent.getVenueId(), new VenueListAsyncResponse() {
                 @Override
-                public void processFinished(ArrayList<mEvent> myEventArrayList) {
-                    Log.d("Inside", "Process finished" + myEventArrayList);
+                public void processFinished(ArrayList<Venue> myVenueArrayList) {
+                    Log.d("Inside", "Process finished" + myVenueArrayList);
 
                     int position = getAdapterPosition();
                     mEvent myEvent = myEventList.get(position);
 
                     Intent intent = new Intent(context, DetailsActivity.class);
 
-
                     intent.putExtra("myEvent", myEvent);
+                    intent.putExtra("venueAddress", myVenue.get(0).getAddressDisplay());
+
 
                     context.startActivity(intent);
 

@@ -7,3 +7,4 @@ import java.util.ArrayList;
 public interface EventListAsyncResponse {
     void processFinished(ArrayList<mEvent> myEventArrayList);
 }
+

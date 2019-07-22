@@ -9,6 +9,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.eventracker.controller.AppController;
+import com.example.eventracker.model.Venue;
 import com.example.eventracker.model.mEvent;
 
 import org.json.JSONArray;
@@ -20,11 +21,12 @@ import java.util.List;
 
 public class VenueData {
 
-    ArrayList<mEvent> myEventArrayList = new ArrayList<>();
+//    ArrayList<mEvent> myEventArrayList = new ArrayList<>();
 
+    ArrayList <Venue> myVenueArrayList = new ArrayList<>();
 
-
-    public List<mEvent> getVenue(String venue, final EventListAsyncResponse callBack) {
+    public List<Venue> getVenue(String venue, final VenueListAsyncResponse callBack) {
+//        public List<mEvent> getVenue(String venue, final EventListAsyncResponse callBack) {
         String url = "https://q2e4y7sz9h.execute-api.us-west-2.amazonaws.com/staging/venues/?venue="+ venue;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
@@ -35,14 +37,26 @@ public class VenueData {
                     public void onResponse(JSONObject response) {
                         Log.d("Response", "onResponse " + response);
 
-                                mEvent myEvent = new mEvent();
+                        Venue myVenue = new Venue();
+                        try {
+                            myVenue.setAddressDisplay(response.getString("localized_address_display"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            myVenue.setAreaDisplay(response.getString("localized_area_display"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+//                                mEvent myEvent = new mEvent();
 //                                myEvent.setName(response.getJSONObject(1).getString("name"));
+                                myVenueArrayList.add(myVenue);
 
-                                myEventArrayList.add(myEvent);
+//                                myEventArrayList.add(myEvent);
 //                            Log.d("Response", "mes" + response.getJSONObject(i));
 //                            Log.d("Response", "mes" + myEventArrayList);
-
-                        if (null != callBack) callBack.processFinished(myEventArrayList);
+                        if (null != callBack) callBack.processFinished(myVenueArrayList);
+//                        if (null != callBack) callBack.processFinished(myEventArrayList);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -59,7 +73,7 @@ public class VenueData {
         AppController.getInstance().addToRequestQueue(jsonObjectRequest);
 
 
-        return myEventArrayList;
+        return myVenueArrayList;
     }
 
 }

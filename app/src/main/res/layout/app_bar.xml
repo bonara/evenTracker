@@ -5,6 +5,4 @@
     android:layout_height="wrap_content"
     app:theme="@style/CustomToolbarStyle">
 
-
-
 </androidx.appcompat.widget.Toolbar>

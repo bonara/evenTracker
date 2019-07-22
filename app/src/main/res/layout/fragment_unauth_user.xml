@@ -19,6 +19,20 @@
         android:textAllCaps="false"
         android:textSize="20dp" />
 
+    <Button
+        android:id="@+id/buttonClearGoogle"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_above="@+id/textViewPlaceHolder4"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="-5dp"
+        android:layout_marginLeft="-5dp"
+        android:layout_marginBottom="162dp"
+        android:text="Clear Google Login"
+        android:textAllCaps="false"
+        android:textSize="20dp" />
+
     <TextView
         android:id="@+id/textViewPlaceHolder4"
         android:layout_width="match_parent"

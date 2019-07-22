@@ -5,47 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UserAccount"
-    android:id="@+id/activity_main"
-    android:paddingBottom="20dp"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
-    android:paddingTop="20dp">
 
-    <TextView
-        android:id="@+id/textViewPlaceHolder1"
+    android:id="@+id/activity_main">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <ImageView
-        android:id="@+id/imageViewCognito"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_below="@+id/textViewPlaceHolder1"
-        android:layout_centerHorizontal="true"
-        android:visibility="visible"
-        app:srcCompat="@mipmap/ic_launcher" />
-
-    <TextView
-        android:id="@+id/textViewTitle"
-        android:layout_below="@+id/imageViewCognito"
-        android:text= "evenTracker"
-        android:textAlignment="center"
-
-        android:textSize="30dp"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_height="wrap_content">
+    </include>
 
     <FrameLayout
         android:id="@+id/frameLayoutContainer"
+        android:layout_below="@id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/textViewTitle"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="11dp">
+        android:layout_height="wrap_content">
 
     </FrameLayout>
 

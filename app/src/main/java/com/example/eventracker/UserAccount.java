@@ -1,25 +1,40 @@
 package com.example.eventracker;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NavUtils;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
 
+import com.amazonaws.mobileconnectors.cognitoauth.util.ClientConstants;
 import com.example.eventracker.fragments.UnauthUserFragment;
 import com.example.eventracker.fragments.AuthUserFragment;
 import com.amazonaws.mobileconnectors.cognitoauth.Auth;
 import com.amazonaws.mobileconnectors.cognitoauth.AuthUserSession;
 import com.amazonaws.mobileconnectors.cognitoauth.handlers.AuthHandler;
 
-public class UserAccount extends FragmentActivity
+
+
+public class UserAccount extends AppCompatActivity
         implements AuthUserFragment.OnFragmentInteractionListener,
         UnauthUserFragment.OnFragmentInteractionListener {
     private static final String TAG = "CognitoAuth";
@@ -29,11 +44,43 @@ public class UserAccount extends FragmentActivity
     private Uri appRedirectSignout;
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.profile, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId()== R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_account);
+
+        Toolbar toolbar = findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Profile");
+
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
         initCognito();
-        setNewUserFragment();
+
+        if (this.auth.isAuthenticated()) {
+            this.auth.getSession();
+//            setAuthUserFragment(this.auth.);
+        }
+        else {
+            setNewUserFragment();
+        }
     }
 
     @Override
@@ -41,19 +88,13 @@ public class UserAccount extends FragmentActivity
         super.onResume();
         Intent activityIntent = getIntent();
         if (activityIntent.getData() != null) {
-            Log.i("asdf", activityIntent.getData().toString());
-            Log.i("asdf", activityIntent.getData().getPath());
 
         }
         //  -- Call Auth.getTokens() to get Cognito JWT --
         if (activityIntent.getData() != null) {
             if (appRedirectSignin.getHost().equals(activityIntent.getData().getHost()) && appRedirectSignin.getPath().equals(activityIntent.getData().getPath())) {
                 auth.getTokens(activityIntent.getData());
-//                auth.setUsername("test");
             }
-//            else if (appRedirectSignout.getHost().equals(activityIntent.getData().getHost()) && appRedirectSignout.getPath().equals(activityIntent.getData().getPath())) {
-//                auth.release();
-//            }
         }
     }
 
@@ -65,6 +106,10 @@ public class UserAccount extends FragmentActivity
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frameLayoutContainer, newUserFragment);
         transaction.commit();
+
+
+
+
 //        setScreenImages();
     }
 
@@ -84,7 +129,7 @@ public class UserAccount extends FragmentActivity
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frameLayoutContainer, userFragment);
         transaction.commit();
-//        setScreenImages();
+
     }
 
     /**
@@ -98,7 +143,6 @@ public class UserAccount extends FragmentActivity
             this.auth.getSession();
         } else {
             this.auth.signOut();
-
         }
     }
 
@@ -135,9 +179,9 @@ public class UserAccount extends FragmentActivity
             setAuthUserFragment(authUserSession);
             auth.setUsername(authUserSession.getUsername());
 
-            Intent intent = new Intent(UserAccount.this, MainActivity.class);
-
-            UserAccount.this.startActivity(intent);
+//            Intent intent = new Intent(UserAccount.this, MainActivity.class);
+//
+//            UserAccount.this.startActivity(intent);
         }
 
         @Override
@@ -145,6 +189,7 @@ public class UserAccount extends FragmentActivity
             // Back to new user screen.
             setNewUserFragment();
         }
+
 
         @Override
         public void onFailure(Exception e) {
@@ -175,12 +220,4 @@ public class UserAccount extends FragmentActivity
         userDialog = builder.create();
         userDialog.show();
     }
-
-    /**
-     * Sets images on the screen.
-     */
-//    private void setScreenImages() {
-//        ImageView cognitoLogo = (ImageView) findViewById(R.id.imageViewCognito);
-//        cognitoLogo.setImageDrawable(getDrawable(R.drawable.ic_mobileservices_amazoncognito));
-//    }
 }

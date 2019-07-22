@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
+
     <application
         android:name=".controller.AppController"
         android:allowBackup="true"
@@ -13,14 +14,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".UserLocation"></activity>
-        <activity android:name=".UserAccount">
-
-            <!-- TODO Add sign-in redirect URI as intent filter -->
+        <activity android:name=".UserLocation" />
+        <activity android:name=".UserAccount" android:parentActivityName=".MainActivity">
 
 
-            <!-- This intent filter is an example for sign-in redirect URI: app://demo.cognitoauth.com/signin -->
+            <!-- Sign-in redirect URI intent filter-->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -45,10 +45,10 @@
                     android:scheme="myapp" />
             </intent-filter>
 
-
         </activity>
+
         <activity android:name=".DetailsActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
