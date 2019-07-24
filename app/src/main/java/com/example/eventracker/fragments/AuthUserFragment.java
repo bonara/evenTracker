@@ -1,6 +1,7 @@
 package com.example.eventracker.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,12 +22,12 @@ import org.json.JSONObject;
 
 import java.util.Iterator;
 
+
 /**
  * Authenticated user.
  */
 public class AuthUserFragment extends Fragment {
-//    private static final String ARG_PARAM1 = "param1";
-//    private static final String ARG_PARAM2 = "param2";
+
     private static final boolean SIGN_OUT = false;
     private static final String TAB = "    ";
 
@@ -54,6 +55,7 @@ public class AuthUserFragment extends Fragment {
             Log.d("-- frag access: ", accessToken);
             idToken = getArguments().getString(getString(R.string.app_id_token));
             Log.d("-- frag id: ", idToken);
+//
         }
     }
 
@@ -108,7 +110,7 @@ public class AuthUserFragment extends Fragment {
      */
     public void onCardSelected(String title, String token) {
         if (mListener != null) {
-            mListener.showPopup(title, token);
+            mListener.showPopup(token, title );
         }
     }
 
@@ -132,9 +134,7 @@ public class AuthUserFragment extends Fragment {
      */
     private void showCards(View view) {
         accessTokenCard = (CardView) view.findViewById(R.id.card_view_access);
-        TextView accessTokenCardText = (TextView) view.findViewById(R.id.info_text_acc_tok);
         idTokenCard = (CardView) view.findViewById(R.id.card_view_id);
-        TextView idTokenCardText = (TextView) view.findViewById(R.id.info_text_id_tok);
 
         userEmail = view.findViewById(R.id.user_email);
         if (accessToken != null && !accessToken.isEmpty()) {
@@ -152,6 +152,8 @@ public class AuthUserFragment extends Fragment {
 
         if (idToken != null && !idToken.isEmpty()) {
             JSONObject payload = JWTParser.getPayload(idToken);
+
+
             try {
                 userEmail.setText(payload.getString("email"));
                 Log.i("email", payload.getString("email"));
@@ -162,6 +164,8 @@ public class AuthUserFragment extends Fragment {
 
         String prettyidToken = prettyPrintJWT(JWTParser.getPayload(idToken),TAB);
         Log.d("idToken",idToken);
+
+
         Log.d("idToken", prettyPrintJWT(JWTParser.getPayload(accessToken),TAB));
 
         if (idToken != null && !idToken.isEmpty()) {

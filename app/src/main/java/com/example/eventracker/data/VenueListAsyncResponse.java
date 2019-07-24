@@ -5,6 +5,6 @@ import com.example.eventracker.model.Venue;
 
 
 public interface VenueListAsyncResponse {
-    void processFinished(ArrayList<Venue> myEventArrayList);
+    void processFinished(ArrayList<Venue> myVenueArrayList);
 }
 

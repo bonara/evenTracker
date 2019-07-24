@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,6 +43,7 @@ public class UserAccount extends AppCompatActivity
     private AlertDialog userDialog;
     private Uri appRedirectSignin;
     private Uri appRedirectSignout;
+    SharedPreferences sharedPreferences;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -121,9 +123,19 @@ public class UserAccount extends AppCompatActivity
     private void setAuthUserFragment(AuthUserSession session) {
         AuthUserFragment userFragment = new AuthUserFragment();
 
+        sharedPreferences = getSharedPreferences("IDTOKEN", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("idToken", session.getIdToken().getJWTToken());
+        editor.commit();
+
+
+        Log.d("idToken from userAccount",session.getIdToken().getJWTToken() );
+
         Bundle fragArgs = new Bundle();
         fragArgs.putString(getString(R.string.app_access_token), session.getAccessToken().getJWTToken());
         fragArgs.putString(getString(R.string.app_id_token), session.getIdToken().getJWTToken());
+//        fragArgs.putString(getString(R.string.app_id_token), value);
+
         userFragment.setArguments(fragArgs);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -188,6 +200,10 @@ public class UserAccount extends AppCompatActivity
         public void onSignout() {
             // Back to new user screen.
             setNewUserFragment();
+            sharedPreferences = getSharedPreferences("IDTOKEN", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.clear();
+            editor.commit();
         }
 
 

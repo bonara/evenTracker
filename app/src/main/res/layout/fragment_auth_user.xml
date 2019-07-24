@@ -10,7 +10,7 @@
     <TextView
         android:id="@+id/user_email"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="38dp"
         android:text="TextView" />
 
     <androidx.cardview.widget.CardView
@@ -32,11 +32,6 @@
                 android:textSize="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="50dp" />
-            <TextView
-                android:id="@+id/info_text_id_tok"
-                android:layout_below="@+id/info_text_id_tok_ttl"
-                android:layout_width="match_parent"
-                android:layout_height="20dp" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
@@ -66,11 +61,6 @@
                 android:textSize="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="50dp" />
-            <TextView
-                android:id="@+id/info_text_acc_tok"
-                android:layout_below="@+id/info_text_acc_tok_ttl"
-                android:layout_width="match_parent"
-                android:layout_height="20dp" />
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
