@@ -93,13 +93,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             int position = getAdapterPosition();
             mEvent myEvent = myEventList.get(position);
 
-//            intent.putExtra("name", myEvent.getName());
-//            intent.putExtra("summary", myEvent.getSummary());
-//
-//            context.startActivity(intent);
-//            Log.d("Clicked", "OnClick "+ view.getId());
-
-//            Log.d("Clicked", "OnClick "+ myEvent.getVenueId());
             myVenue = new VenueData().getVenue(myEvent.getVenueId(), new VenueListAsyncResponse() {
                 @Override
                 public void processFinished(ArrayList<Venue> myVenueArrayList) {

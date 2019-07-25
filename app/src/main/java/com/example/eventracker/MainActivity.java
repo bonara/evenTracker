@@ -6,49 +6,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.Manifest;
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
-import android.provider.Browser;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+
 
 import androidx.appcompat.widget.Toolbar;
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.RetryPolicy;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 
 import com.example.eventracker.adapter.RecyclerViewAdapter;
 import com.example.eventracker.controller.AppController;
 import com.example.eventracker.data.EventData;
 import com.example.eventracker.data.EventListAsyncResponse;
 import com.example.eventracker.model.mEvent;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
+
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import org.json.JSONArray;
 
@@ -81,16 +59,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        SharedPreferences getSharedDate = getSharedPreferences("LOCATION",MODE_PRIVATE);
-//        String userLat = getSharedDate.getString("latitide","47.608013");
-//        String userLong = getSharedDate.getString("longitude","-122.335167");
-//        Log.d("shared", userLat);
-//
-//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @NonNull Intent data) {

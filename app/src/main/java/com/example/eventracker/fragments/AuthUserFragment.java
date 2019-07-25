@@ -110,7 +110,7 @@ public class AuthUserFragment extends Fragment {
      */
     public void onCardSelected(String title, String token) {
         if (mListener != null) {
-            mListener.showPopup(token, title );
+            mListener.showPopup(title, token);
         }
     }
 
@@ -152,7 +152,6 @@ public class AuthUserFragment extends Fragment {
 
         if (idToken != null && !idToken.isEmpty()) {
             JSONObject payload = JWTParser.getPayload(idToken);
-
 
             try {
                 userEmail.setText(payload.getString("email"));

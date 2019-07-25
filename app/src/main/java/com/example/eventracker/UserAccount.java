@@ -27,12 +27,15 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 
 import com.amazonaws.mobileconnectors.cognitoauth.util.ClientConstants;
+import com.amazonaws.mobileconnectors.cognitoauth.util.JWTParser;
 import com.example.eventracker.fragments.UnauthUserFragment;
 import com.example.eventracker.fragments.AuthUserFragment;
 import com.amazonaws.mobileconnectors.cognitoauth.Auth;
 import com.amazonaws.mobileconnectors.cognitoauth.AuthUserSession;
 import com.amazonaws.mobileconnectors.cognitoauth.handlers.AuthHandler;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class UserAccount extends AppCompatActivity
@@ -122,10 +125,17 @@ public class UserAccount extends AppCompatActivity
      */
     private void setAuthUserFragment(AuthUserSession session) {
         AuthUserFragment userFragment = new AuthUserFragment();
+        String idToken =session.getIdToken().getJWTToken();
+        JSONObject payload = JWTParser.getPayload(idToken);
 
         sharedPreferences = getSharedPreferences("IDTOKEN", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("idToken", session.getIdToken().getJWTToken());
+        try {
+            editor.putString("username", payload.getString("cognito:username"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         editor.commit();
 
 
