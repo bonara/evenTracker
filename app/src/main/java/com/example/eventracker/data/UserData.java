@@ -8,6 +8,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.example.eventracker.controller.AppController;
 import com.example.eventracker.model.User;
 
@@ -27,6 +28,7 @@ public class UserData {
 
     ArrayList <User> myUserArrayList = new ArrayList<>();
     ArrayList <User> myUserIdList = new ArrayList<>();
+    String attendingResponse = new String();
 
     public List<User> getUser(String event, final String token, final UserListAsyncResponse callBack) {
         String url = "https://q2e4y7sz9h.execute-api.us-west-2.amazonaws.com/staging/attendee/?eventId="+ event;
@@ -124,6 +126,49 @@ public class UserData {
 
 
         return myUserIdList;
+    }
+
+
+    public String markAttending(final String event, final String token, final Boolean attending, final AttendingAsyncResponse callBack){
+        String url = "https://q2e4y7sz9h.execute-api.us-west-2.amazonaws.com/staging/attendee/?eventId="+ event;
+        int method = Request.Method.POST;
+        if (attending==true){
+            method = Request.Method.DELETE;
+        }
+        StringRequest request = new StringRequest(
+                method,
+                url,
+                new Response.Listener<String>(){
+                    @Override
+                    public void onResponse(String response){
+                        Log.d("Response Post", "onResponse " + response);
+                        attendingResponse = response;
+                        if (null != callBack) callBack.processFinished(attendingResponse);
+                    }
+                }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("Error Response", error.toString());
+
+                }
+            })
+            {
+                @Override
+                public Map<String, String> getHeaders() {
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    headers.put("Authorization", "Bearer " + token);
+                    return headers;
+                }
+            };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        AppController.getInstance().addToRequestQueue(request);
+
+        return attendingResponse;
     }
 
 }

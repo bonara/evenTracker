@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 
 
 import androidx.appcompat.widget.Toolbar;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerViewAdapter recyclerViewAdapter;
     private RequestQueue requestQueue;
     private List<mEvent> myEventList;
+    private ProgressBar progressBar;
 
     private String userLat = "40.730610";
     private String userLong = "-73.935242";
@@ -79,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setTitle("Events");
         Toolbar toolbar = findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
 
@@ -103,6 +106,8 @@ public class MainActivity extends AppCompatActivity {
                 recyclerViewAdapter = new RecyclerViewAdapter(MainActivity.this, myEventList);
 
                 recyclerView.setAdapter(recyclerViewAdapter);
+                progressBar = findViewById(R.id.progressBar);
+                progressBar.setVisibility(ProgressBar.INVISIBLE);
             }
         });
     }

@@ -1,6 +1,5 @@
 package com.example.eventracker;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,10 +16,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.eventracker.adapter.UsersAdapter;
+import com.example.eventracker.data.AttendingAsyncResponse;
 import com.example.eventracker.data.UserData;
 import com.example.eventracker.data.UserListAsyncResponse;
 import com.example.eventracker.model.User;
@@ -29,9 +29,7 @@ import com.example.eventracker.model.Venue;
 import com.example.eventracker.model.mEvent;
 import com.squareup.picasso.Picasso;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.List;
 
 
 
@@ -41,9 +39,11 @@ public class DetailsActivity extends AppCompatActivity {
     private Button detsYesButton, detsUsers;
     private ArrayList<User> myUserList;
     private ArrayList<User> myUserIdList;
+    private String response;
     private String eventId;
     private String token;
     private String userId;
+    private Boolean attending = false;
     private AlertDialog userDialog;
     private UsersAdapter mAdapter;
 
@@ -89,6 +89,7 @@ public class DetailsActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
+
         }
 
         SharedPreferences getIdToken = getSharedPreferences("IDTOKEN",Context.MODE_PRIVATE);
@@ -106,8 +107,10 @@ public class DetailsActivity extends AppCompatActivity {
                 Log.d("Inside", "Process finished" + myUserIdList );
                 for(User user : myUserIdList){
                     if(user.getUserId() != null && user.getUserId().equals(userId)) {
+                        attending = true;
                         detsYesButton.setText("No");
                         detsYesButton.setBackgroundColor(Color.LTGRAY);
+
                         Log.d("finished", "username " + user.getUserId());
                         Log.d("userId from shared pref", userId);
                     }
@@ -116,21 +119,47 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
-        myUserList = (ArrayList<User>) new UserData().getUser(eventId, token, new UserListAsyncResponse() {
-            @Override
-            public void processFinished(ArrayList<User> myUserArrayList) {
-                Log.d("eventID", eventId);
-                Log.d("Inside", "Process finished" );
-                Toast.makeText(DetailsActivity.this, "finished", Toast.LENGTH_SHORT).show();
-            }
-        });
 
 
         detsYesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                Log.d("token", token);
 
+                new UserData().markAttending(eventId, token, attending, new AttendingAsyncResponse() {
+                    @Override
+                    public void processFinished(String attendingResponse) {
+                        Log.d("attending response", attendingResponse);
+                        if (attendingResponse == ""){
+                            Log.d("no auth", "no auth");
+//                            AlertDialog.Builder builder = new AlertDialog.Builder(DetailsActivity.this);
+//                            builder.setMessage("You need to sign in to perform this action.")
+//                                    .setPositiveButton("Sign in", new DialogInterface.OnClickListener() {
+//                                        public void onClick(DialogInterface dialog, int id) {
+//                                            // FIRE ZE MISSILES!
+//                                        }
+//                                    })
+//                                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                                        public void onClick(DialogInterface dialog, int id) {
+//                                            // User cancelled the dialog
+//                                        }
+//                                    });
+//                            builder.create();
+//                            builder.show();
+                        }
+                        attending = !attending;
+                        if (attending == true){
+                            detsYesButton.setText("No");
+                            detsYesButton.setBackgroundColor(Color.LTGRAY);
+                            Toast.makeText(DetailsActivity.this, "Marked as attending", Toast.LENGTH_SHORT).show();
+                        } else {
+                            detsYesButton.setText("Yes");
+                            detsYesButton.setBackgroundColor(Color.parseColor("#8BC34A"));
+                            Toast.makeText(DetailsActivity.this, "Marked as not attending", Toast.LENGTH_SHORT).show();
 
+                        }
+                    }
+                });
             }
         });
 
@@ -138,7 +167,15 @@ public class DetailsActivity extends AppCompatActivity {
         detsUsers.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                showDialogMessage(myUserList);
+                myUserList = (ArrayList<User>) new UserData().getUser(eventId, token, new UserListAsyncResponse() {
+                    @Override
+                    public void processFinished(ArrayList<User> myUserArrayList) {
+                        Log.d("eventID", eventId);
+                        Log.d("Inside", "Process finished" );
+                        showDialogMessage(myUserList);
+                    }
+                });
+
 
             }
         });
@@ -169,7 +206,6 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
         builder.setView(row);
-
 
         userDialog = builder.create();
         userDialog.show();
