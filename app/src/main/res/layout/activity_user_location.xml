@@ -4,45 +4,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/skyline"
+    android:orientation="vertical"
+    android:background="@drawable/city"
     tools:context=".UserLocation">
 
-    <LinearLayout
-        android:layout_width="0dp"
+
+    <TextView
+        android:id="@+id/location_desc"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:fontFamily="@font/open_sans_light"
+        android:gravity="center"
+        android:text="Your location coordinates:"
+        android:textColor="#2C3943"
+        android:textSize="18sp" />
 
-        <Button
-            android:id="@+id/btnLocation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:text="Set Location"
-            android:textAllCaps="false"
-            android:textColor="#ffffff" />
+    <TextView
+        android:id="@+id/txtLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:fontFamily="@font/open_sans"
+        android:gravity="center"
+        android:textColor="#000" />
 
-        <TextView
-            android:id="@+id/location_desc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Your location coordinates:"
-            android:layout_margin="8dp"
-            android:gravity="center"
-            android:textColor="#000" />
+    <Button
+        android:id="@+id/btnLocation"
+        android:layout_width="203dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/button_shape"
+        android:fontFamily="@font/open_sans_semibold"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="1"
+        android:text="Set Location"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/txtLocation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:gravity="center"
-            android:textColor="#000" />
 
-    </LinearLayout>
 
 
 </LinearLayout>

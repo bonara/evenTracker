@@ -56,6 +56,7 @@ public class UserData {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("Error Response", error.toString());
+                if (null != callBack) callBack.onError(error.toString());
             }
         })
         {
@@ -88,7 +89,7 @@ public class UserData {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        Log.d("Response", "onResponse " + response);
+                        Log.d("Response", "onGetUserResponse " + response);
                         for (int i = 0; i < response.length(); i++) {
                             try {
                                 User myUserId = new User();
@@ -105,6 +106,7 @@ public class UserData {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("Error Response", error.toString());
+
             }
         })
         {
@@ -141,15 +143,13 @@ public class UserData {
                 new Response.Listener<String>(){
                     @Override
                     public void onResponse(String response){
-                        Log.d("Response Post", "onResponse " + response);
                         attendingResponse = response;
                         if (null != callBack) callBack.processFinished(attendingResponse);
                     }
                 }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.d("Error Response", error.toString());
-
+                    if (null != callBack) callBack.onError(error.toString());
                 }
             })
             {

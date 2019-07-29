@@ -9,7 +9,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -31,7 +30,6 @@ import java.util.Locale;
 public class UserLocation extends AppCompatActivity {
     public static final int LOCATION_REQUEST = 1000;
     public static final int GPS_REQUEST = 1001;
-    private static final String LOCATION = "location_prefs";
 
     private FusedLocationProviderClient mFusedLocationClient;
 
@@ -39,7 +37,6 @@ public class UserLocation extends AppCompatActivity {
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
     private android.widget.Button btnLocation;
-    private Button backButton;
     private TextView txtLocation;
 
 
@@ -79,14 +76,6 @@ public class UserLocation extends AppCompatActivity {
                         mLatitude = location.getLatitude();
                         mLongitude = location.getLongitude();
 
-
-                        Log.d("Loc34", "location" + mLatitude);
-//                        SharedPreferences sharedPreferences = getSharedPreferences(LOCATION, MODE_PRIVATE);
-//                        SharedPreferences.Editor editor = sharedPreferences.edit();
-//                        editor.putString("latitude", String.valueOf(mLatitude));
-//                        editor.putString("longitude", String.valueOf(mLongitude));
-//                        editor.apply();
-
                         if (mFusedLocationClient != null) {
                             mFusedLocationClient.removeLocationUpdates(locationCallback);
                         }
@@ -105,7 +94,6 @@ public class UserLocation extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
                 Intent i = new Intent();
                 i.putExtra("long", String.valueOf(mLongitude));
                 i.putExtra("lat", String.valueOf(mLatitude));
@@ -115,7 +103,6 @@ public class UserLocation extends AppCompatActivity {
 
             }
         });
-
 
     }
 
@@ -132,22 +119,20 @@ public class UserLocation extends AppCompatActivity {
                     if (location != null) {
                         mLatitude = location.getLatitude();
                         mLongitude = location.getLongitude();
-//
-//                        Intent i = new Intent();
-//                        i.putExtra("long", mLongitude);
-//                        i.putExtra("lat", mLongitude);
-//                        setResult(RESULT_OK, i);
-//                        finish();
-                        Log.d("Loc3", "location" + mLatitude);
-//                        SharedPreferences sharedPreferences = getSharedPreferences(LOCATION, MODE_PRIVATE);
-//                        SharedPreferences.Editor editor = sharedPreferences.edit();
-//                        editor.putString("latitude", String.valueOf(mLatitude));
-//                        editor.putString("longitude", String.valueOf(mLongitude));
-//                        editor.apply();
 
-                        txtLocation.setText(String.format(Locale.US, "%s - %s", mLatitude, mLongitude));
+                        txtLocation.setText(String.format(Locale.US, "%s, %s", mLatitude, mLongitude));
 
                     } else {
+                        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                            // TODO: Consider calling
+                            //    Activity#requestPermissions
+                            // here to request the missing permissions, and then overriding
+                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                            //                                          int[] grantResults)
+                            // to handle the case where the user grants the permission. See the documentation
+                            // for Activity#requestPermissions for more details.
+                            return;
+                        }
                         mFusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null);
                     }
                 }

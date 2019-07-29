@@ -6,5 +6,6 @@ import java.util.ArrayList;
 
 public interface AttendingAsyncResponse {
     void processFinished(String attendingResponse);
+    void onError(String message);
 }
 

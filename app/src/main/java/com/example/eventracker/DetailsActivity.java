@@ -16,7 +16,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,12 +24,13 @@ import com.example.eventracker.data.AttendingAsyncResponse;
 import com.example.eventracker.data.UserData;
 import com.example.eventracker.data.UserListAsyncResponse;
 import com.example.eventracker.model.User;
-import com.example.eventracker.model.Venue;
 import com.example.eventracker.model.mEvent;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
+import java.util.Date;
 
 
 public class DetailsActivity extends AppCompatActivity {
@@ -71,8 +71,8 @@ public class DetailsActivity extends AppCompatActivity {
             eventId = myEvent.getId();
             detsName.setText(myEvent.getName());
             detsDescription.setText(myEvent.getDescription());
-            detsStart.setText(myEvent.getStart());
-            detsEnd.setText(myEvent.getEnd());
+            detsStart.setText(dateFormat(myEvent.getStart()));
+            detsEnd.setText(dateFormat(myEvent.getEnd()));
             detsLocaiton.setText(venueAddress);
             Picasso.get().load(myEvent.getImageUrl())
                     .placeholder(R.drawable.placeholder)
@@ -105,6 +105,7 @@ public class DetailsActivity extends AppCompatActivity {
             public void processFinished(ArrayList<User> myUserIdList) {
                 Log.d("eventID", eventId);
                 Log.d("Inside", "Process finished" + myUserIdList );
+
                 for(User user : myUserIdList){
                     if(user.getUserId() != null && user.getUserId().equals(userId)) {
                         attending = true;
@@ -115,6 +116,11 @@ public class DetailsActivity extends AppCompatActivity {
                         Log.d("userId from shared pref", userId);
                     }
                 }
+
+            }
+
+            @Override
+            public void onError(String message) {
 
             }
         });
@@ -130,25 +136,9 @@ public class DetailsActivity extends AppCompatActivity {
                     @Override
                     public void processFinished(String attendingResponse) {
                         Log.d("attending response", attendingResponse);
-                        if (attendingResponse == ""){
-                            Log.d("no auth", "no auth");
-//                            AlertDialog.Builder builder = new AlertDialog.Builder(DetailsActivity.this);
-//                            builder.setMessage("You need to sign in to perform this action.")
-//                                    .setPositiveButton("Sign in", new DialogInterface.OnClickListener() {
-//                                        public void onClick(DialogInterface dialog, int id) {
-//                                            // FIRE ZE MISSILES!
-//                                        }
-//                                    })
-//                                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                                        public void onClick(DialogInterface dialog, int id) {
-//                                            // User cancelled the dialog
-//                                        }
-//                                    });
-//                            builder.create();
-//                            builder.show();
-                        }
+
                         attending = !attending;
-                        if (attending == true){
+                        if (attending == true) {
                             detsYesButton.setText("No");
                             detsYesButton.setBackgroundColor(Color.LTGRAY);
                             Toast.makeText(DetailsActivity.this, "Marked as attending", Toast.LENGTH_SHORT).show();
@@ -158,6 +148,24 @@ public class DetailsActivity extends AppCompatActivity {
                             Toast.makeText(DetailsActivity.this, "Marked as not attending", Toast.LENGTH_SHORT).show();
 
                         }
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(DetailsActivity.this);
+                        builder.setMessage("You need to sign in to perform this action.")
+                                .setPositiveButton("Sign in", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        Intent intent = new Intent(DetailsActivity.this, UserAccount.class);
+                                        DetailsActivity.this.startActivity(intent);
+                                    }
+                                })
+                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                    }
+                                });
+                        builder.create();
+                        builder.show();
                     }
                 });
             }
@@ -172,7 +180,28 @@ public class DetailsActivity extends AppCompatActivity {
                     public void processFinished(ArrayList<User> myUserArrayList) {
                         Log.d("eventID", eventId);
                         Log.d("Inside", "Process finished" );
+                        Log.d("myUserArrayList", myUserArrayList.toString());
+
                         showDialogMessage(myUserList);
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        Log.d("error message", message);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(DetailsActivity.this);
+                        builder.setMessage("You need to sign in to perform this action.")
+                                .setPositiveButton("Sign in", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        Intent intent = new Intent(DetailsActivity.this, UserAccount.class);
+                                        DetailsActivity.this.startActivity(intent);
+                                    }
+                                })
+                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                    }
+                                });
+                        builder.create();
+                        builder.show();
                     }
                 });
 
@@ -209,5 +238,16 @@ public class DetailsActivity extends AppCompatActivity {
 
         userDialog = builder.create();
         userDialog.show();
+    }
+
+    private String dateFormat(String dateString){
+        try {
+            Date d =  (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")).parse(dateString);
+            String formattedDate = (new SimpleDateFormat("E, MMM dd yyyy hh:mm a")).format(d);
+            return formattedDate;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return dateString;
     }
 }

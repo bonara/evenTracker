@@ -8,7 +8,7 @@
     </style>
     <style name="CustomToolbarStyle" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:background">@color/colorMenu</item>
     </style>
 
 </resources>

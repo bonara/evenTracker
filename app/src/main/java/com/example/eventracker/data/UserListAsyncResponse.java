@@ -7,5 +7,6 @@ import java.util.ArrayList;
 
 public interface UserListAsyncResponse {
     void processFinished(ArrayList<User> myUserArrayList);
+    void onError(String message);
 }
 

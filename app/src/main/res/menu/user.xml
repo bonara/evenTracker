@@ -5,7 +5,7 @@
     <item
         android:id="@+id/action_user"
         android:title="User"
-        android:icon="@drawable/user"
+        android:icon="@drawable/user_icon"
         app:showAsAction="always">
     </item>
 
