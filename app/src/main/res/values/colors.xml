@@ -5,6 +5,7 @@
     <color name="colorPrimaryDark">#2C3943</color>
     <color name="colorAccent">#FDB603</color>
     <color name="colorSecondary">#B0BDC4</color>
-    <color name="colorMenu">#219FB2</color>
+    <color name="colorMenu1">#219FB2</color>
+    <color name="colorMenu">#57ADE7</color>
     <color name="gray">#CFCFCF</color>
 </resources>

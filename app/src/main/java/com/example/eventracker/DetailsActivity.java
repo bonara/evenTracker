@@ -218,6 +218,9 @@ public class DetailsActivity extends AppCompatActivity {
         View row = inflater.inflate(R.layout.all_attendees, null);
         builder.setTitle("Attendees");
 
+        if (myUserList.isEmpty()){
+            builder.setMessage("none");
+        }
         ListView listView = (ListView)row.findViewById(R.id.listView);
         mAdapter = new UsersAdapter(this, myUserList);
         listView.setAdapter(mAdapter);

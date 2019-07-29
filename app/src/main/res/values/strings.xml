@@ -12,7 +12,12 @@
     <!--<string name="app_redirect">xxxxx://xxxxx.xxxxx.com/signin</string>-->
     <!--<string name="app_sign_out_redirect">xxxxx://xxxxx.xxxxx.com/signout</string>-->
 
-
+    <!-- TODO: Add your Cognito pool details here -->
+    <string name="cognito_web_domain">eventracker.auth.us-west-2.amazoncognito.com</string>
+    <string name="cognito_client_id">384k027c6bk070dgg7s830ldnk</string>
+    <string name="cognito_client_secret">158sdepj3cgh2d3ttennk0d9ts1b86p7gdbp3goh6cifkf33kaoi</string>
+    <string name="app_redirect">myapp://myapp.example.com/signin</string>
+    <string name="app_sign_out_redirect">myapp://myapp.example.com/signout</string>
 
 
     <string name="app_access_token">access_token</string>

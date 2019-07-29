@@ -65,7 +65,8 @@ public class AuthUserFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_auth_user, container, false);
         wireUp(view);
-        showCards(view);
+        showProfile(view);
+//        showCards(view);
         return view;
     }
 
@@ -128,28 +129,9 @@ public class AuthUserFragment extends Fragment {
         });
     }
 
-    /**
-     * Display card if the token is available.
-     * @param view
-     */
-    private void showCards(View view) {
-        accessTokenCard = (CardView) view.findViewById(R.id.card_view_access);
-        idTokenCard = (CardView) view.findViewById(R.id.card_view_id);
 
+    private void showProfile(View view) {
         userEmail = view.findViewById(R.id.user_email);
-        if (accessToken != null && !accessToken.isEmpty()) {
-            accessTokenCard.setVisibility(View.VISIBLE);
-            accessTokenCard.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onCardSelected("Access Token",
-                            prettyPrintJWT(JWTParser.getPayload(accessToken), TAB));
-                }
-            });
-        } else {
-            accessTokenCard.setVisibility(View.INVISIBLE);
-        }
-
         if (idToken != null && !idToken.isEmpty()) {
             JSONObject payload = JWTParser.getPayload(idToken);
 
@@ -160,46 +142,80 @@ public class AuthUserFragment extends Fragment {
                 e.printStackTrace();
             }
         }
-
-        String prettyidToken = prettyPrintJWT(JWTParser.getPayload(idToken),TAB);
-        Log.d("idToken",idToken);
-
-
-        Log.d("idToken", prettyPrintJWT(JWTParser.getPayload(accessToken),TAB));
-
-        if (idToken != null && !idToken.isEmpty()) {
-            idTokenCard.setVisibility(View.VISIBLE);
-            idTokenCard.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onCardSelected("Id Token",
-                            prettyPrintJWT(JWTParser.getPayload(idToken), TAB));
-                }
-            });
-        } else {
-            idTokenCard.setVisibility(View.INVISIBLE);
-        }
     }
+
+    /**
+     * Display card if the token is available.
+     * @param view
+     */
+//    private void showCards(View view) {
+//        accessTokenCard = (CardView) view.findViewById(R.id.card_view_access);
+//        idTokenCard = (CardView) view.findViewById(R.id.card_view_id);
+//
+//        userEmail = view.findViewById(R.id.user_email);
+//        if (accessToken != null && !accessToken.isEmpty()) {
+//            accessTokenCard.setVisibility(View.VISIBLE);
+//            accessTokenCard.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    onCardSelected("Access Token",
+//                            prettyPrintJWT(JWTParser.getPayload(accessToken), TAB));
+//                }
+//            });
+//        } else {
+//            accessTokenCard.setVisibility(View.INVISIBLE);
+//        }
+//
+//        if (idToken != null && !idToken.isEmpty()) {
+//            JSONObject payload = JWTParser.getPayload(idToken);
+//
+//            try {
+//                userEmail.setText(payload.getString("email"));
+//                Log.i("email", payload.getString("email"));
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//        String prettyidToken = prettyPrintJWT(JWTParser.getPayload(idToken),TAB);
+//        Log.d("idToken",idToken);
+//
+//
+//        Log.d("idToken", prettyPrintJWT(JWTParser.getPayload(accessToken),TAB));
+//
+//        if (idToken != null && !idToken.isEmpty()) {
+//            idTokenCard.setVisibility(View.VISIBLE);
+//            idTokenCard.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    onCardSelected("Id Token",
+//                            prettyPrintJWT(JWTParser.getPayload(idToken), TAB));
+//                }
+//            });
+//        } else {
+//            idTokenCard.setVisibility(View.INVISIBLE);
+//        }
+//    }
 
     /**
      * Pretty print flat Json.
      */
-    private String prettyPrintJWT(JSONObject jwtJson, String tab) {
-        String seperator = " : ";
-        StringBuilder prettyPrintBuilder = new StringBuilder();
-        prettyPrintBuilder.append("{");
-        if (jwtJson != null) {
-            try {
-                Iterator<String> jsonIterator = jwtJson.keys();
-                while (jsonIterator.hasNext()) {
-                    String key = jsonIterator.next();
-                    prettyPrintBuilder.append("\n").append(tab).append(key).append(seperator).append(jwtJson.get(key));
-                }
-            } catch (Exception e) {
-
-            }
-        }
-        prettyPrintBuilder.append("\n}");
-        return  prettyPrintBuilder.toString();
-    }
+//    private String prettyPrintJWT(JSONObject jwtJson, String tab) {
+//        String seperator = " : ";
+//        StringBuilder prettyPrintBuilder = new StringBuilder();
+//        prettyPrintBuilder.append("{");
+//        if (jwtJson != null) {
+//            try {
+//                Iterator<String> jsonIterator = jwtJson.keys();
+//                while (jsonIterator.hasNext()) {
+//                    String key = jsonIterator.next();
+//                    prettyPrintBuilder.append("\n").append(tab).append(key).append(seperator).append(jwtJson.get(key));
+//                }
+//            } catch (Exception e) {
+//
+//            }
+//        }
+//        prettyPrintBuilder.append("\n}");
+//        return  prettyPrintBuilder.toString();
+//    }
 }
