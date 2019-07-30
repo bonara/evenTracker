@@ -1,11 +1,5 @@
 package com.example.eventracker;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,22 +8,20 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
 
-
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.RequestQueue;
-
 import com.example.eventracker.adapter.RecyclerViewAdapter;
-import com.example.eventracker.controller.AppController;
 import com.example.eventracker.data.EventData;
 import com.example.eventracker.data.EventListAsyncResponse;
 import com.example.eventracker.model.mEvent;
 
-
 import java.util.ArrayList;
 import java.util.List;
-
-import org.json.JSONArray;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -38,8 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private List<mEvent> myEventList;
     private ProgressBar progressBar;
 
-    private String userLat = "40.730610";
-    private String userLong = "-73.935242";
+    private String userLat = "47.608013";
+    private String userLong = "-122.335167";
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

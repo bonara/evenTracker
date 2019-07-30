@@ -1,38 +1,30 @@
 package com.example.eventracker;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.NavUtils;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentTransaction;
-
-
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.webkit.WebView;
-import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
-import com.amazonaws.mobileconnectors.cognitoauth.util.ClientConstants;
-import com.amazonaws.mobileconnectors.cognitoauth.util.JWTParser;
-import com.example.eventracker.fragments.UnauthUserFragment;
-import com.example.eventracker.fragments.AuthUserFragment;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.amazonaws.mobileconnectors.cognitoauth.Auth;
 import com.amazonaws.mobileconnectors.cognitoauth.AuthUserSession;
 import com.amazonaws.mobileconnectors.cognitoauth.handlers.AuthHandler;
+import com.amazonaws.mobileconnectors.cognitoauth.util.JWTParser;
+import com.example.eventracker.fragments.AuthUserFragment;
+import com.example.eventracker.fragments.UnauthUserFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,6 +63,12 @@ public class UserAccount extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Profile");
+
+        RelativeLayout relativeLayout = findViewById(R.id.activity_main);
+        AnimationDrawable animationDrawable = (AnimationDrawable) relativeLayout.getBackground();
+        animationDrawable.setEnterFadeDuration(2000);
+        animationDrawable.setExitFadeDuration(4000);
+        animationDrawable.start();
 
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

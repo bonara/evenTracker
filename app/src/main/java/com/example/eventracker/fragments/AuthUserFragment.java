@@ -1,26 +1,25 @@
 package com.example.eventracker.fragments;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
-import com.example.eventracker.R;
 import com.amazonaws.mobileconnectors.cognitoauth.util.JWTParser;
-
+import com.example.eventracker.R;
+import com.example.eventracker.data.AttendingAsyncResponse;
+import com.example.eventracker.data.UsernameData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Iterator;
 
 
 /**
@@ -40,22 +39,20 @@ public class AuthUserFragment extends Fragment {
     private CardView accessTokenCard;
     private CardView idTokenCard;
     private TextView userEmail;
+    private TextView username;
+    private ImageView icon;
 
     private OnFragmentInteractionListener mListener;
 
     public AuthUserFragment() {
-        // Required empty public constructor
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            accessToken = getArguments().getString(getString(R.string.app_access_token));
-            Log.d("-- frag access: ", accessToken);
+//            accessToken = getArguments().getString(getString(R.string.app_access_token));
             idToken = getArguments().getString(getString(R.string.app_id_token));
-            Log.d("-- frag id: ", idToken);
-//
         }
     }
 
@@ -66,7 +63,7 @@ public class AuthUserFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_auth_user, container, false);
         wireUp(view);
         showProfile(view);
-//        showCards(view);
+        showUsername(view);
         return view;
     }
 
@@ -131,11 +128,13 @@ public class AuthUserFragment extends Fragment {
 
 
     private void showProfile(View view) {
+        icon = view.findViewById(R.id.user_icon);
         userEmail = view.findViewById(R.id.user_email);
         if (idToken != null && !idToken.isEmpty()) {
             JSONObject payload = JWTParser.getPayload(idToken);
 
             try {
+                icon.setImageResource(R.drawable.woman_icon);
                 userEmail.setText(payload.getString("email"));
                 Log.i("email", payload.getString("email"));
             } catch (JSONException e) {
@@ -144,78 +143,19 @@ public class AuthUserFragment extends Fragment {
         }
     }
 
-    /**
-     * Display card if the token is available.
-     * @param view
-     */
-//    private void showCards(View view) {
-//        accessTokenCard = (CardView) view.findViewById(R.id.card_view_access);
-//        idTokenCard = (CardView) view.findViewById(R.id.card_view_id);
-//
-//        userEmail = view.findViewById(R.id.user_email);
-//        if (accessToken != null && !accessToken.isEmpty()) {
-//            accessTokenCard.setVisibility(View.VISIBLE);
-//            accessTokenCard.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    onCardSelected("Access Token",
-//                            prettyPrintJWT(JWTParser.getPayload(accessToken), TAB));
-//                }
-//            });
-//        } else {
-//            accessTokenCard.setVisibility(View.INVISIBLE);
-//        }
-//
-//        if (idToken != null && !idToken.isEmpty()) {
-//            JSONObject payload = JWTParser.getPayload(idToken);
-//
-//            try {
-//                userEmail.setText(payload.getString("email"));
-//                Log.i("email", payload.getString("email"));
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//        String prettyidToken = prettyPrintJWT(JWTParser.getPayload(idToken),TAB);
-//        Log.d("idToken",idToken);
-//
-//
-//        Log.d("idToken", prettyPrintJWT(JWTParser.getPayload(accessToken),TAB));
-//
-//        if (idToken != null && !idToken.isEmpty()) {
-//            idTokenCard.setVisibility(View.VISIBLE);
-//            idTokenCard.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    onCardSelected("Id Token",
-//                            prettyPrintJWT(JWTParser.getPayload(idToken), TAB));
-//                }
-//            });
-//        } else {
-//            idTokenCard.setVisibility(View.INVISIBLE);
-//        }
-//    }
+    private void showUsername(final View view) {
+        new UsernameData().getUsername(idToken, new AttendingAsyncResponse() {
+            @Override
+            public void processFinished(String usernameResponse) {
+                Log.d("username", usernameResponse );
+                username = view.findViewById(R.id.username);
+                username.setText(usernameResponse.replace("\"", ""));
+            }
 
-    /**
-     * Pretty print flat Json.
-     */
-//    private String prettyPrintJWT(JSONObject jwtJson, String tab) {
-//        String seperator = " : ";
-//        StringBuilder prettyPrintBuilder = new StringBuilder();
-//        prettyPrintBuilder.append("{");
-//        if (jwtJson != null) {
-//            try {
-//                Iterator<String> jsonIterator = jwtJson.keys();
-//                while (jsonIterator.hasNext()) {
-//                    String key = jsonIterator.next();
-//                    prettyPrintBuilder.append("\n").append(tab).append(key).append(seperator).append(jwtJson.get(key));
-//                }
-//            } catch (Exception e) {
-//
-//            }
-//        }
-//        prettyPrintBuilder.append("\n}");
-//        return  prettyPrintBuilder.toString();
-//    }
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
 }
