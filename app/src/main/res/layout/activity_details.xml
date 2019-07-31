@@ -46,8 +46,8 @@
                 android:padding="8dp">
 
                 <RelativeLayout
-                    android:layout_width="194dp"
-                    android:layout_height="89dp"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:layout_marginRight="10dp"
                     android:orientation="vertical"
@@ -70,7 +70,7 @@
 
                     <TextView
                         android:id="@+id/dets_start"
-                        android:layout_width="182dp"
+                        android:layout_width="186dp"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/dateTime"
                         android:layout_marginTop="4dp"
@@ -78,11 +78,10 @@
 
                     <TextView
                         android:id="@+id/dets_end"
-                        android:layout_width="183dp"
+                        android:layout_width="185dp"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/dets_start"
-                        android:layout_marginTop="2dp"
-                        android:layout_marginBottom="-7dp"
+                        android:layout_marginTop="4dp"
                         android:text="TextView" />
 
                 </RelativeLayout>
