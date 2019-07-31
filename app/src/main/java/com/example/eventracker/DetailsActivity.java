@@ -1,13 +1,9 @@
 package com.example.eventracker;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +14,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.eventracker.adapter.UsersAdapter;
 import com.example.eventracker.data.AttendingAsyncResponse;
@@ -110,7 +109,7 @@ public class DetailsActivity extends AppCompatActivity {
                     if(user.getUserId() != null && user.getUserId().equals(userId)) {
                         attending = true;
                         detsYesButton.setText("No");
-                        detsYesButton.setBackgroundColor(Color.LTGRAY);
+                        detsYesButton.setBackgroundResource(R.drawable.no_button_shape);
 
                         Log.d("finished", "username " + user.getUserId());
                         Log.d("userId from shared pref", userId);
@@ -140,11 +139,11 @@ public class DetailsActivity extends AppCompatActivity {
                         attending = !attending;
                         if (attending == true) {
                             detsYesButton.setText("No");
-                            detsYesButton.setBackgroundColor(Color.LTGRAY);
+                            detsYesButton.setBackgroundResource(R.drawable.no_button_shape);
                             Toast.makeText(DetailsActivity.this, "Marked as attending", Toast.LENGTH_SHORT).show();
                         } else {
                             detsYesButton.setText("Yes");
-                            detsYesButton.setBackgroundColor(Color.parseColor("#8BC34A"));
+                            detsYesButton.setBackgroundResource(R.drawable.yes_button_shape);
                             Toast.makeText(DetailsActivity.this, "Marked as not attending", Toast.LENGTH_SHORT).show();
 
                         }

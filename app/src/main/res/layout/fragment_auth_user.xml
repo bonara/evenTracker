@@ -16,7 +16,6 @@
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/open_sans_extrabold"
         android:gravity="center_horizontal"
-        android:text="TextView"
         android:textSize="18sp"
         card_view:layout_constraintEnd_toEndOf="parent"
         card_view:layout_constraintHorizontal_bias="0.0"
@@ -27,11 +26,9 @@
         android:id="@+id/user_email"
         android:layout_width="349dp"
         android:layout_height="66dp"
-        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/montserrat"
         android:gravity="center_horizontal"
-        android:text="TextView"
         card_view:layout_constraintEnd_toEndOf="parent"
         card_view:layout_constraintHorizontal_bias="0.574"
         card_view:layout_constraintStart_toStartOf="parent"
@@ -63,7 +60,7 @@
         card_view:layout_constraintHorizontal_bias="0.497"
         card_view:layout_constraintStart_toStartOf="parent"
         card_view:layout_constraintTop_toBottomOf="@+id/user_email"
-        card_view:layout_constraintVertical_bias="0.169" />
+        card_view:layout_constraintVertical_bias="0.175" />
 
     <ImageView
         android:id="@+id/user_icon"

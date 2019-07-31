@@ -2,7 +2,6 @@ package com.example.eventracker.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,22 +10,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.RequestQueue;
 import com.example.eventracker.DetailsActivity;
-import com.example.eventracker.MainActivity;
 import com.example.eventracker.R;
 import com.example.eventracker.data.VenueData;
-import com.example.eventracker.data.EventListAsyncResponse;
 import com.example.eventracker.data.VenueListAsyncResponse;
 import com.example.eventracker.model.Venue;
 import com.example.eventracker.model.mEvent;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>  {
@@ -55,6 +53,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         mEvent myEvent = myEventList.get(position); //each mEvent object inside of our list
         viewHolder.name.setText(myEvent.getName());
         viewHolder.summary.setText(myEvent.getSummary());
+        viewHolder.date.setText(dateFormat(myEvent.getStart()));
 
         Picasso.get().load(myEvent.getImageUrl())
                 .placeholder(R.drawable.placeholder)
@@ -76,6 +75,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public TextView name;
         public TextView summary;
         public ImageView image;
+        public TextView date;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -84,6 +84,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             name = itemView.findViewById(R.id.name);
             summary = itemView.findViewById(R.id.summary);
             image = itemView.findViewById(R.id.image);
+            date = itemView.findViewById(R.id.date);
 
         }
 
@@ -113,5 +114,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             });
         }
+    }
+
+    private String dateFormat(String dateString){
+        try {
+            Date d =  (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")).parse(dateString);
+            String formattedDate = (new SimpleDateFormat("E, MMM dd")).format(d);
+            return formattedDate;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return dateString;
     }
 }
